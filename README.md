@@ -15,16 +15,24 @@ $ curl https://raw.githubusercontent.com/second-state/ssvmup/master/installer/in
 
 # 编写机器人逻辑
 
-<a href="https://github.com/second-state/serverless-reactor-starter/fork">请 fork 这个代码仓库</a>。默认的函数是一个计算器机器人，向它发一个“2+2”的消息，它就会回答“4”。
+<a href="https://github.com/second-state/serverless-reactor-starter/fork">请 fork 这个代码仓库</a>。默认的函数是一个多步计算器机器人，向它发一个“2+2”的消息，它就会回答“4”，再发送“*3”，就会回答“12”。
 
 ```rust
 use wasm_bindgen::prelude::*;
 use meval;
 
 #[wasm_bindgen]
-pub fn text_received(msg: String, _username: String, _step_data: String) -> String {
-  let x = meval::eval_str(&msg).unwrap();
-  return format!("{}", x);
+pub fn text_received(msg: String, _username: String, step_data: String) -> String {
+  if msg == "#" {
+    return format!(r#"{{"new_step": true}}"#);
+  } else {
+    let exp = match step_data == ""{
+      true => msg,
+      _ => format!("({}){}", step_data, msg)
+    };
+    let x = meval::eval_str(&exp).unwrap();
+    return format!(r#"{{"result": "{}", "step": "{}"}}"#, x, exp);
+  }
 }
 ```
 
