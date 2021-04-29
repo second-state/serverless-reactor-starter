@@ -12,7 +12,9 @@ pub fn text_received(msg: String, _username: String, _step_data: String) -> Stri
   let mut v3 = v[3].to_string();
   v3.make_ascii_uppercase();
   let pair = v1 + "_" + &v3;
+
   let mut cmd = Command::new("http_proxy");
+  // [currencyconverterapi key] comes from https://free.currencyconverterapi.com
   cmd.arg("get")
     .arg(format!("https://free.currconv.com/api/v7/convert?q={}&compact=ultra&apiKey=[currencyconverterapi key]", pair))
     .stdin_u8vec("".as_bytes());
