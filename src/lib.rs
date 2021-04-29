@@ -3,11 +3,11 @@ use ssvm_tensorflow_interface;
 use urlencoding::encode;
 
 #[wasm_bindgen]
-pub fn text_received(_msg: String, _username: String, _step_data: String) -> String {
+pub fn text_received(_msg: String, _user_info: String, _step_data: String) -> String {
   "请发送一张食物的图片，必须是 Jpeg 格式。".to_string()
 }
 #[wasm_bindgen]
-pub fn image_received(img_buf: Vec<u8>, _image_key: String, _username: String, _step_data: String) -> String {
+pub fn image_received(img_buf: Vec<u8>, _image_key: String, _user_info: String, _step_data: String) -> String {
   let model_data: &[u8] = include_bytes!("lite-model_aiy_vision_classifier_food_V1_1.tflite");
   let labels = include_str!("aiy_food_V1_labelmap.txt");
 
