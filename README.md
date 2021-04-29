@@ -15,16 +15,45 @@ $ curl https://raw.githubusercontent.com/second-state/ssvmup/master/installer/in
 
 # 编写机器人逻辑
 
-<a href="https://github.com/second-state/serverless-reactor-starter/fork">请 fork 这个代码仓库</a>。默认的函数是一个计算器机器人，向它发一个“2+2”的消息，它就会回答“4”。
+<a href="https://github.com/second-state/serverless-reactor-starter/fork">请 fork 这个代码仓库</a>。默认的函数是一个汇率换算机器人，向它发一个“1 usd to cny”的消息，它就会回答 1 美元当前折合多少人民币，比如 "6.470397"。
 
 ```rust
 use wasm_bindgen::prelude::*;
+use serde_json::Value;
 use meval;
+use std::str;
+use ssvm_process_interface::Command;
 
 #[wasm_bindgen]
 pub fn text_received(msg: String, _username: String, _step_data: String) -> String {
-  let x = meval::eval_str(&msg).unwrap();
-  return format!("{}", x);
+  let v: Vec<&str> = msg.split_whitespace().collect();
+  let mut v1 = v[1].to_string();
+  v1.make_ascii_uppercase();
+  let mut v3 = v[3].to_string();
+  v3.make_ascii_uppercase();
+  let pair = v1 + "_" + &v3;
+  let mut cmd = Command::new("http_proxy");
+  cmd.arg("get")
+    .arg(format!("https://free.currconv.com/api/v7/convert?q={}&compact=ultra&apiKey=975724bc7bef91dd5877", pair))
+    .stdin_u8vec("".as_bytes());
+
+  let out = cmd.output();
+  if out.status != 0 {
+      println!("Code: {}", out.status);
+      println!("STDERR: {}", str::from_utf8(&out.stderr).unwrap());
+      println!("STDOUT: {}", str::from_utf8(&out.stdout).unwrap());
+      return str::from_utf8(&out.stderr).unwrap().to_string();
+  }
+
+  let cur = str::from_utf8(&out.stdout).unwrap();
+  let cur: Value = serde_json::from_str(cur).unwrap();
+  let cur = cur[pair].as_f64().unwrap();
+
+  return format!(
+    r#"{{"result": "{}", "step": "{}"}}"#,
+    meval::eval_str(v[0].to_owned() + "*" + &cur.to_string()).unwrap(),
+    ""
+  );
 }
 ```
 
@@ -40,7 +69,7 @@ $ ssvmup build
 
 # 部署
 
-<a href="http://reactor.secondstate.info/docs/user-create-a-bot.html">参见文档</a>创建一个飞书企业应用与 <a href="http://reactor.secondstate.info/">Serverless Reactor</a> 的对应 app，将编译成功的 `pkg/calculator_lib_bg.wasm` 文件上传到 Serverless Reactor，并把生成的 service URL 提交给飞书。
+<a href="http://reactor.secondstate.info/docs/user-create-a-bot.html">参见文档</a>创建一个飞书企业应用与 <a href="http://reactor.secondstate.info/">Serverless Reactor</a> 的对应 app，将编译成功的 `pkg/converter_robot_lib.wasm` 文件上传到 Serverless Reactor，并把生成的 service URL 提交给飞书。
 
 祝贺你！你现在有了一个属于你的飞书机器人！
 

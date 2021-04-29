@@ -1,14 +1,16 @@
 [package]
-name = "calculator"
+name = "converter"
 version = "0.1.0"
 authors = ["ubuntu"]
 edition = "2018"
 
 [lib]
-name = "calculator_lib"
+name = "converter_robot_lib"
 path = "src/lib.rs"
 crate-type =["cdylib"]
 
 [dependencies]
 wasm-bindgen = "=0.2.61"
+ssvm_process_interface = "0.1.3"
+serde_json = "1.0"
 meval = "0.2"
