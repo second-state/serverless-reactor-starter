@@ -2,7 +2,7 @@ use wasm_bindgen::prelude::*;
 use meval;
 
 #[wasm_bindgen]
-pub fn text_received(msg: String, _username: String, step_data: String) -> String {
+pub fn text_received(msg: String, _user_info: String, step_data: String) -> String {
   if msg == "#" {
     return format!(r#"{{"new_step": true}}"#);
   } else {
