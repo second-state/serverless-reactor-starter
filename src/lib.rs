@@ -5,7 +5,7 @@ use std::str;
 use ssvm_process_interface::Command;
 
 #[wasm_bindgen]
-pub fn text_received(msg: String, _username: String, _step_data: String) -> String {
+pub fn text_received(msg: String, _user_info: String, _step_data: String) -> String {
   let v: Vec<&str> = msg.split_whitespace().collect();
   let mut v1 = v[1].to_string();
   v1.make_ascii_uppercase();
