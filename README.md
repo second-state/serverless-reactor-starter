@@ -2,7 +2,7 @@ Serverless Reactors 让你可以快速零成本地构建发布飞书机器人。
 
 # 安装必要的软件
 
-请确保您已经安装了[Rust](https://www.rust-lang.org/tools/install), 和[ssvmup](https://www.secondstate.io/articles/ssvmup/).
+请确保您已经安装了[Rust](https://www.rust-lang.org/tools/install), 和[rustwasmc](https://www.secondstate.io/articles/rustwasmc/).
 为了您的方便，下面是 Linux / Mac / PowerShell 的安装命令。
 
 ```src
@@ -10,7 +10,7 @@ $ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 $ source $HOME/.cargo/env
 $ rustup override set 1.50.0
 
-$ curl https://raw.githubusercontent.com/second-state/ssvmup/master/installer/init.sh -sSf | sh
+$ curl https://raw.githubusercontent.com/second-state/rustwasmc/master/installer/init.sh -sSf | sh
 ```
 
 # 编写机器人逻辑
@@ -98,7 +98,7 @@ pub fn image_received(img_buf: Vec<u8>, _image_key: String, _username: String, _
 将机器人的函数编译成可以部署的 WebAssembly 文件。
 
 ```src
-$ ssvmup build
+$ rustwasmc build
 ```
 
 # 部署
