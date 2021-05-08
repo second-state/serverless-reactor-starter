@@ -105,7 +105,7 @@ $ rustwasmc build
 
 # 部署
 
-<a href="http://reactor.secondstate.info/docs/user-create-a-bot.html">参见文档</a>创建一个飞书企业应用与 <a href="http://reactor.secondstate.info/">Serverless Reactor</a> 的对应 app，将编译成功的 `pkg/calculator_lib_bg.wasm` 文件上传到 Serverless Reactor，并把生成的 service URL 提交给飞书。
+<a href="http://reactor.secondstate.info/docs/user-create-a-bot.html">参见文档</a>创建一个飞书企业应用与 <a href="http://reactor.secondstate.info/">Serverless Reactor</a> 的对应 app，将编译成功的 `pkg/resize_pic_lib_bg.wasm` 文件上传到 Serverless Reactor，并把生成的 service URL 提交给飞书。
 
 祝贺你！你现在有了一个属于你的飞书机器人！
 
