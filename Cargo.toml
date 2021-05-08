@@ -1,14 +1,17 @@
 [package]
-name = "calculator"
+name = "resize_pic"
 version = "0.1.0"
 authors = ["ubuntu"]
 edition = "2018"
 
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
 [lib]
-name = "calculator_lib"
+name = "resize_pic_robot_lib"
 path = "src/lib.rs"
-crate-type =["cdylib"]
+crate-type =["cdylib", "lib"]
 
 [dependencies]
 wasm-bindgen = "=0.2.61"
-meval = "0.2"
+serde_json = "1.0"
+image = { version = "0.23.0", default-features = false, features = ["jpeg", "png", "gif"] }
