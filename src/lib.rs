@@ -4,7 +4,7 @@ use urlencoding::encode;
 
 #[wasm_bindgen]
 pub fn text_received(_msg: String, _user_info: String, _step_data: String) -> String {
-  "请发送一张食物的图片，必须是 Jpeg 格式。".to_string()
+  "Please send a food picture (must be JPEG)".to_string()
 }
 #[wasm_bindgen]
 pub fn image_received(img_buf: Vec<u8>, _image_key: String, _user_info: String, _step_data: String) -> String {
@@ -30,13 +30,13 @@ pub fn image_received(img_buf: Vec<u8>, _image_key: String, _user_info: String, 
       i += 1;
   }
 
-  let mut confidence = "可能有";
+  let mut confidence = "possible";
   if max_value > 200 {
-      confidence = "非常可能有";
+      confidence = "very likely";
   } else if max_value > 125 {
-      confidence = "很可能有";
+      confidence = "likely";
   } else if max_value > 50 {
-      confidence = "可能有";
+      confidence = "possible";
   }
 
   let mut label_lines = labels.lines();
@@ -53,7 +53,7 @@ pub fn image_received(img_buf: Vec<u8>, _image_key: String, _user_info: String, 
       "msg": [
         [{{
             "tag": "text",
-            "text": "上传的图片里面{} "
+            "text": "It is {} that the uploaded picture contains "
           }},
           {{
             "tag": "a",
@@ -66,7 +66,7 @@ pub fn image_received(img_buf: Vec<u8>, _image_key: String, _user_info: String, 
     "#, confidence.to_string(), encode(class_name), class_name).replace("\n", "");
     return format!(r#"{{"result": {}}}"#, s);
   } else {
-    return format!("上传的图片里面没有检测到食品");
+    return format!("No food detected in the uploaded picture");
   }
 }
 
