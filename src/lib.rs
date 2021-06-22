@@ -1,6 +1,5 @@
 use wasm_bindgen::prelude::*;
 use ssvm_tensorflow_interface;
-use urlencoding::encode;
 
 #[wasm_bindgen]
 pub fn text_received(_msg: String, _user_info: String, _step_data: String) -> String {
@@ -47,26 +46,8 @@ pub fn image_received(img_buf: Vec<u8>, _image_key: String, _user_info: String, 
   let class_name = label_lines.next().unwrap();
 
   if max_value > 50 {
-    let s = format!(r#"
-    {{
-      "type": "post",
-      "msg": [
-        [{{
-            "tag": "text",
-            "text": "It is {} that the uploaded picture contains "
-          }},
-          {{
-            "tag": "a",
-            "href": "https://www.bing.com/search?q={}",
-            "text": "{}"
-          }}
-        ]
-      ]
-    }}
-    "#, confidence.to_string(), encode(class_name), class_name).replace("\n", "");
-    return format!(r#"{{"result": {}}}"#, s);
+    return format!("It is {} that the uploaded picture contains {}." , confidence.to_string(), class_name);
   } else {
     return format!("No food detected in the uploaded picture");
   }
 }
-
