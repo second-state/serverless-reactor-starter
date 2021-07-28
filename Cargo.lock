@@ -151,7 +151,6 @@ dependencies = [
  "serde_json",
  "ssvm_process_interface",
  "wasm-bindgen",
- "wasmedge_process_interface",
 ]
 
 [[package]]
@@ -236,9 +235,3 @@ name = "wasm-bindgen-shared"
 version = "0.2.61"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "71f77b681efd0bca6f8ea356cdc2e497538b41d3e2a02afed18ce8f022231d29"
-
-[[package]]
-name = "wasmedge_process_interface"
-version = "0.2.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "dfe544c3569991fbb145c845db3845a7f23a2fbdc19ee6b034eca8c87fc54a1a"
